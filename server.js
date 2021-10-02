@@ -11,7 +11,20 @@ const router = {
   GET: {
     '/users/(\\w+).json': (req, res, matches, usersById) => {
       // BEGIN (write your solution here)
+      res.setHeader('Content-Type', 'application/json');
 
+      const id = matches[1];
+      const data = usersById[id];
+
+      if (!data) {
+        res.statusCode = 404;
+        res.end();
+        return;
+      }
+
+      res.end(JSON.stringify({
+        data,
+      }))
       // END
     },
     '/': (req, res, matches, usersById) => {
