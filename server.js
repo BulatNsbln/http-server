@@ -10,7 +10,19 @@ export default (usersById) => http.createServer((request, response) => {
       response.end(messages.join('\n'));
     } else if (request.url.startsWith('/search')) {
       // BEGIN (write your solution here)
-
+      const url = new URL(request.url, `http://${request.headers.host}`);
+      const q = url.searchParams.get('q');
+      if (q) {
+        const message = Object.values(usersById)
+          .filter(({ name }) => name.toLowerCase().includes(q.toLowerCase()))
+          .reduce((acc, { name, phone }) => {
+            const isNotFirstElement = acc.length > 0;
+            return acc + `${isNotFirstElement ? '\n' : ''}${name}, ${phone}`;
+          }, '');
+        response.end(message);
+      } else {
+        response.end('');
+      }
       // END
     }
   });
