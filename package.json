@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "dependencies": {
+    "axios": "*"
+  },
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --colors --detectOpenHandles --forceExit"
+  },
+  "devDependencies": {
+    "@jest/globals": "^27.2.4",
+    "jest": "^27.2.4",
+    "jest-cli": "^27.2.4"
+  },
+  "jest": {
+    "verbose": true
+  }
+}
