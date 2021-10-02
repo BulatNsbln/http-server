@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "dependencies": {
+    "axios": "*",
+    "lodash": "*"
+  },
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --colors"
+  },
+  "devDependencies": {
+    "jest": "^27.2.4"
+  }
+}
