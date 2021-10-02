@@ -27,7 +27,29 @@ export default (usersById) => http.createServer((request, response) => {
       response.end(JSON.stringify(result));
     } else if (request.url.startsWith('/users.json')) {
       // BEGIN (write your solution here)
+      const url = new URL(request.url, `http://${request.headers.host}`);
 
+      const page = +(url.searchParams.get('page') ?? 1);
+      const perPage = +(url.searchParams.get('perPage') ?? 10);
+      const users = Object.values(usersById);
+      const totalPages = Math.ceil(users.length / perPage);
+
+      const meta = {
+        page,
+        perPage,
+        totalPages,
+      };
+
+      const end = page * perPage;
+      const start = end - perPage;
+      const data = users
+        .slice(start, end);
+
+      response.setHeader('Content-Type', 'application/json');
+      response.end(JSON.stringify({
+        meta,
+        data,
+      }));
       // END
     }
   });
