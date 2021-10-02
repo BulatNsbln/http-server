@@ -1,6 +1,7 @@
 // @ts-check
 
 import http from 'http';
+import fs from 'fs/promises';
 
 import { validate, nextId } from './user.js';
 
@@ -58,7 +59,40 @@ const router = {
   },
   POST: {
     // BEGIN (write your solution here)
+    '/users.json': async (req, res, matches, body, users) => {
+      res.setHeader('Content-Type', 'application/json');
 
+      const parsedBody = JSON.parse(body);
+      const errors = validate(parsedBody);
+      if (errors.length) {
+        res.statusCode = 422;
+        res.end(JSON.stringify({ errors }));
+        return;
+      }
+
+      res.statusCode = 201;
+
+      const id = nextId();
+      const { name, phone } = parsedBody;
+      const meta = {
+        location: `/users/${id}.json`,
+      };
+      const data = {
+        id,
+        name,
+        phone,
+      };
+
+      users[id] = {
+        name,
+        phone,
+      }
+
+      res.end(JSON.stringify({
+        meta,
+        data,
+      }));
+    }
     // END
   },
 };

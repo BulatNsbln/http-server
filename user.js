@@ -9,6 +9,30 @@ export const nextId = () => {
 
 export const validate = ({ name, phone }) => {
   // BEGIN (write your solution here)
+  const errors = [];
+  const presenceMessage = "can't be blank";
 
+  if (!phone) {
+    errors.push({
+      source: 'phone',
+      title: presenceMessage,
+    });
+  }
+
+  if (!name) {
+    errors.push({
+      source: 'name',
+      title: presenceMessage,
+    });
+  }
+  const nameRegExp = /^[\w.]+$/gm;
+  if (!nameRegExp.test(name)) {
+    errors.push({
+      source: 'name',
+      title: 'bad format',
+    });
+  }
+
+  return errors;
   // END
 };
